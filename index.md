@@ -106,6 +106,26 @@ Agent A → Agent B → Agent C → Agent D
  Worker Agent 1     Worker Agent 2    Worker Agent 3
 ```
 
+#### Graph Architecture
+- Agents are connected by predefined edges, and execution moves between agents according to a predefined workflow and conditional routing rules.
+```
+A → Yes → B → No → C
+│         │
+▼         ▼
+No        Yes
+│         │
+▼         ▼
+D → → E → F
+```
+
+#### Network Architecture
+- Each agent can talk to any other agent in the whole collection. No predefined workflow
+```
+A ↔ B ↔ C
+↕   ↕   ↕
+D ↔ E ↔ F
+```
+  
 ### LangChain
 - LangChain is an abstraction layer that simplifies AI development by providing prebuilt components. 
 
