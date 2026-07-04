@@ -72,10 +72,39 @@
      - Your application sends the tool's raw result back to the model. The LLM reads this fresh context and outputs a natural, user-friendly response.
 
 ### Single-agent system
-- A single-agent system relies on one AI instance or Large Language Model to handle a workflow end-to-end.
+- A single-agent system means one AI agent is responsible for planning, reasoning, using tools, and completing a task through multiple steps.
+- This can plan the sequence of actions and invoke one or more tools as needed.
 
 ### Multi-Agent System
-- A multi-agent system combines multiple AI agents, each with a specialized role, that collaborate to handle a workflow end-to-end.
+- A multi-agent system combines multiple AI agents, each with a specialized role.
+- Even though a single-agent system can plan and invoke multiple tools, that doesn’t mean it’s always the best architecture. Architecture can become complex when too many responsibilities are mixed or the context window is exceeded. So, a multi-agent system solves this by delegating roles into specialized agents.
+
+#### Sequential Pipeline Architecture
+- Agents are arranged sequentially.
+```
+Agent A → Agent B → Agent C → Agent D
+```
+
+#### Router-Based Architecture
+- A router agent decides which worker agent should handle the task, collects the results, and returns it.
+- The router agent calls only one agent to complete a task.
+```
+                     Router Agent
+                          │
+     ┌────────────────────┼──────────────────┐
+     ▼                    ▼                  ▼
+ Worker Agent 1     Worker Agent 2    Worker Agent 3
+```
+
+#### Hierarchical Architecture
+- Unlike the router agent, the manager agent breaks down the task, assigns subtasks across multiple worker agents, collects results, and produces final output.
+```
+                     Manager Agent
+                          │
+     ┌────────────────────┼──────────────────┐
+     ▼                    ▼                  ▼
+ Worker Agent 1     Worker Agent 2    Worker Agent 3
+```
 
 ### LangChain
 - LangChain is an abstraction layer that simplifies AI development by providing prebuilt components. 
