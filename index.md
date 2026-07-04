@@ -74,8 +74,8 @@
 - A single-agent system relies on one AI instance or Large Language Model to handle a workflow end-to-end.
 
 ### Multi-Agent System
-A multi-agent system combines multiple AI agents, each with a specialized role, that collaborate to handle a workflow end-to-end.
+- A multi-agent system combines multiple AI agents, each with a specialized role, that collaborate to handle a workflow end-to-end.
 
 ### LangChain
-LangChain is an abstraction layer that simplifies AI development by providing prebuilt components. 
+- LangChain is an abstraction layer that simplifies AI development by providing prebuilt components. 
 
