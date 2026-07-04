@@ -49,6 +49,7 @@
 ### Vector store
 - A vector database stores vectors (or embeddings) of texts alongside other metadata that can help identify, organize, or retrieve the relevant vector when performing searches.
 - Each embedded text takes a place in vector space. When a query comes in, it is converted into vectors and placed in the same vector space. If the query vector is close to a document vector, it means the document is relevant to the question.
+- E.g., Pinecone, Chroma, Milvus, FAISS
 
 ### Similarity Search
 - Similarity search is the technique used to compute the distance between the vectors in vector space. Techniques: Cosine similarity, Dot product, Euclidean distance
