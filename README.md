@@ -1,9 +1,16 @@
 # Generative AI Fundamentals
 
+## Generative AI
+- Generative AI is a subset of artificial intelligence that creates content—such as text, images, audio, video, and code - in response to user prompts.
+- Generative AI is making it easier to innovate faster and reduce the number of working hours needed for development.
+- A **foundation model** is a large AI model trained on massive, diverse, unlabeled data (text, images, audio, etc.) that can be adapted (fine-tuned) to perform many different tasks.
+- Foundational model types: Text-to-Text, Text-to-Embedding, Multimodal-to-Multimodal
+
 ## LLM
 - An LLM is an AI model trained on massive amounts of data, specialized in text understanding and generation. 
 - E.g., OpenAI GPT, Anthropic Claude, Google Gemini 
-- They understand queries and answer based on their training data. 
+- They understand queries and answer based on their training data.
+- At their core, LLMs operate fundamentally as text-to-text systems. However, modern LLMs are no longer limited to text-to-text only. Many top models are now multimodal, meaning they can understand, process, and generate different types of media: image, audio, video
 
 ### Context window
 - The context window of an LLM is the amount of text, in tokens, that the model can remember at any one time. This includes prompt, conversation history, and generated output. 
