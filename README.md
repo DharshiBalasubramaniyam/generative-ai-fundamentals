@@ -158,7 +158,7 @@
 
 ### Multi-Agent System
 - A multi-agent system combines multiple AI agents, each with a specialized role.
-- Even though a single-agent system can plan and invoke multiple tools, that doesn’t mean it’s always the best architecture. Architecture can become complex when too many responsibilities are mixed or the context window is exceeded. So, a multi-agent system solves this by delegating roles into specialized agents.
+- Even though a single-agent system can plan and invoke multiple tools, that doesn’t mean it’s always the best architecture. Architecture can become complex when too many responsibilities are mixed or the context window is exceeded. So, a multi-agent system solves this by delegating roles to specialized agents.
 
 #### Sequential Pipeline Architecture
 - Agents are arranged sequentially.
@@ -206,7 +206,27 @@ A ↔ B ↔ C
 ↕   ↕   ↕
 D ↔ E ↔ F
 ```
-  
-### LangChain
-- LangChain is an abstraction layer that simplifies AI development by providing prebuilt components. 
+
+### Planning/Task decomposition
+- Task decomposition is the process of breaking a complex user request into smaller, manageable subtasks that an AI agent (or multiple agents) can execute step by step.
+- Either a single agent can decompose tasks internally and execute them step by step itself, or a manager agent can decompose tasks and exuceute then by calling worker agents.
+- The subtasks can be run sequentially or simultaneously.
+- The planning can be built by an LLM during runtime, or it can be predefined by developers (e.g., using LangGraph)
+
+## Memory
+- Memory allows an AI agent to retain and reuse information instead of treating every request independently.
+- Short-term memory: Stores the current conversation, intermediate results, and workflow state
+- Long-term memory: Persists user preferences or important facts and past events over weeks or months.
+- During an agentic workflow, the agent reads relevant memory before planning or using tools, and updates memory with new information after generating the response.
+- This enables personalized interactions, avoids redundant work, and supports multi-step reasoning.
+
+### Reflection
+- Reflection is the process where an AI agent reviews its own intermediate or final output before responding to the user.
+- During reflection, the agent checks whether the answer is correct, complete, grounded in available evidence, and consistent with the user's instructions.
+- If it finds issues, it can revise the answer or even perform additional actions, such as calling another tool or retrieving more information.
+- Reflection is implemented as an additional reasoning step rather than a built-in LLM capability. After generating an initial answer, the application prompts the LLM (Reflection agent) to review its own output against criteria such as accuracy, completeness, grounding, and instruction following. If the review identifies issues, the workflow loops back to revise the answer or perform additional tool calls.
+- Reflection improves response quality and reliability, but it also increases latency and cost because it requires additional reasoning steps.
+
+### LangChain/LangGraph
+- LangChain and LangGraph are abstraction layers that simplify AI development by providing prebuilt components. 
 
