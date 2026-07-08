@@ -64,11 +64,29 @@
 - Semantic search uses vector embeddings + similarity search to find results based on meaning, not keywords.
 
 ## RAG
-[RAG pipiline](./src/assets/RAG.png)
+<img src='./src/assets/RAG.png' alt='RAG pipeline' />
+
 - Retrieval-Augmented Generation (RAG) is a technique that combines an LLM with an external knowledge base, instead of relying solely on the training data.
 - They understand queries and answers based on an external knowledge base. 
 - It pulls only the most relevant information from the knowledge base using vector stores and semantic search and inserts it into the context window of the LLM.
 
+### Naive RAG
+- Documents are broken into chunks, each converted into embeddings and stored in a vector database. When a user asks a question, the question is embedded using the same embedding model used to embed documents, and the system finds the closest-matching text using similarity search and passes it to the LLM.
+
+### Retrieve and Re-Rank
+- The system first retrieves the top 20 matches. Then, a specialized model (called a cross-encoder) reorders them to ensure the top 3 are the most accurate.
+
+###  HyDE (Hypothetical Document Embeddings)
+- The LLM first writes a fake or hypothetical answer (imagine how the document looks) to the user's question. The system then converts this fake answer into a vector search to find the real documents.
+
+### Self RAG
+- Rewrite the user question to get better results.
+
+### Graph RAG
+- Instead of storing data as text in a vector database, this organizes information as a network of nodes and edges, which forms graph-structured data. When you ask a question, the LLM uses the graph to retrieve connected contexts.
+
+### Agentic RAG
+- The AI agent decides when to search, how many times to search, and what tools to use before giving the final answer.
 ### Chunking
 - Chunking is the process of breaking large documents into smaller, meaningful pieces before storing them in the vector database.
 - Too small chunks allow the AI to quickly find exact facts, while it may lack the surrounding context, so the LLM produces a complete answer. Larger chunks may include surrounding contexts as well, but sometimes it might include unrelated topics for a question. SO chunking strategy changes how well your RAG app works.
@@ -77,6 +95,25 @@
      - Document-Based Chunking: Splits text using the natural structure of your file, like a markdown header or a table row.
 - Chunk Overlap: Repeat a small part of the previous chunk at the start of the new chunk to make sure no information is lost when a sentence is cut in half. A 10% to 20% overlap is common.
 
+### RAG metrics
+- Retrieval 
+     - Recall@k – Are relevant documents retrieved within the top k results?
+     - Precision@k – How many retrieved documents are actually relevant?
+- Generation
+     - Faithfulness: Measures whether the generated answer is strictly based on the retrieved documents.
+     - Answer Relevancy: Measures whether the AI's answer is relevant to the user's question.
+     - Answer Correctness: Compares the AI's final answer to a "ground truth"
+
+### Best practices to debug RAG pipeline
+- Instrument every stage of the RAG pipeline with detailed logs.
+- Save retrieved document IDs, similarity scores, metrics, and the final prompt for each request.
+- Maintain a benchmark evaluation dataset and run automated regression tests after updates.
+- Add observability dashboards for latency, retrieval quality, hallucination rate, and user feedback.
+- When something went wrong:
+     - Check final context - Is context relevant? Context has too much unrelated stuff?
+     - If context is not relevant, check similarity scores, chunkings, and rewritten query
+     - If retrieval is correct, check temperature, used modal, and instructions
+       
 ## Agent
 - An AI agent is a technique that combines an LLM with tools that can think, plan, decide, and perform actions to achieve a goal. 
 
