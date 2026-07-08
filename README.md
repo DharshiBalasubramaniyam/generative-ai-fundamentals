@@ -4,7 +4,7 @@
 - Generative AI is a subset of artificial intelligence that creates content—such as text, images, audio, video, and code - in response to user prompts.
 - Generative AI is making it easier to innovate faster and reduce the number of working hours needed for development.
 - A **foundation model** is a large AI model trained on massive, diverse, unlabeled data (text, images, audio, etc.) that can be adapted (fine-tuned) to perform many different tasks.
-- Foundational model types: Text-to-Text, Text-to-Embedding, Multimodal-to-Multimodal
+- Foundational model types: Text-to-Text, Text-to-Embedding, Text-to-Multimodal, Multimodal-to-Multimodal
 
 ## LLM
 - An LLM is an AI model trained on massive amounts of data, specialized in text understanding and generation. 
@@ -57,15 +57,25 @@
 - A vector database stores vectors (or embeddings) of texts alongside other metadata that can help identify, organize, or retrieve the relevant vector when performing searches.
 - Each embedded text takes a place in vector space. When a query comes in, it is converted into vectors and placed in the same vector space. If the query vector is close to a document vector, it means the document is relevant to the question.
 - E.g., Pinecone, Chroma, Milvus, FAISS
+- For only thousands of vectors, in-memory libraries like FAISS are sufficient. However, for millions of vectors a distributed vector database is needed.
 
 ### Similarity Search
 - Similarity search is the technique used to compute the distance between the vectors in vector space. Techniques: Cosine similarity, Dot product, Euclidean distance
 - Semantic search uses vector embeddings + similarity search to find results based on meaning, not keywords.
 
 ## RAG
+[RAG pipiline](./src/assets/RAG.png)
 - Retrieval-Augmented Generation (RAG) is a technique that combines an LLM with an external knowledge base, instead of relying solely on the training data.
 - They understand queries and answers based on an external knowledge base. 
 - It pulls only the most relevant information from the knowledge base using vector stores and semantic search and inserts it into the context window of the LLM.
+
+### Chunking
+- Chunking is the process of breaking large documents into smaller, meaningful pieces before storing them in the vector database.
+- Too small chunks allow the AI to quickly find exact facts, while it may lack the surrounding context, so the LLM produces a complete answer. Larger chunks may include surrounding contexts as well, but sometimes it might include unrelated topics for a question. SO chunking strategy changes how well your RAG app works.
+     - Fixed-Size Chunking: Cuts text at a set number of characters (for example, 500 characters). It is fast but can cut sentences in half.
+     - Semantic Chunking: Groups sentences by topic. The AI looks at the meaning and splits the text where the topic changes.
+     - Document-Based Chunking: Splits text using the natural structure of your file, like a markdown header or a table row.
+- Chunk Overlap: Repeat a small part of the previous chunk at the start of the new chunk to make sure no information is lost when a sentence is cut in half. A 10% to 20% overlap is common.
 
 ## Agent
 - An AI agent is a technique that combines an LLM with tools that can think, plan, decide, and perform actions to achieve a goal. 
