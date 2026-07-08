@@ -69,6 +69,7 @@
 - Retrieval-Augmented Generation (RAG) is a technique that combines an LLM with an external knowledge base, instead of relying solely on the training data.
 - They understand queries and answers based on an external knowledge base. 
 - It pulls only the most relevant information from the knowledge base using vector stores and semantic search and inserts it into the context window of the LLM.
+- RAG is preferred over frequent model retraining because updating documents is cheaper and faster than retraining a model.
 
 ### Naive RAG
 - Documents are broken into chunks, each converted into embeddings and stored in a vector database. When a user asks a question, the question is embedded using the same embedding model used to embed documents, and the system finds the closest-matching text using similarity search and passes it to the LLM.
@@ -87,9 +88,11 @@
 
 ### Agentic RAG
 - The AI agent decides when to search, how many times to search, and what tools to use before giving the final answer.
+
 ### Chunking
 - Chunking is the process of breaking large documents into smaller, meaningful pieces before storing them in the vector database.
-- Too small chunks allow the AI to quickly find exact facts, while it may lack the surrounding context, so the LLM produces a complete answer. Larger chunks may include surrounding contexts as well, but sometimes it might include unrelated topics for a question. SO chunking strategy changes how well your RAG app works.
+- Larger chunks may return bloated context, miss the exact relevant part, and waste the context window.
+- Too small chunks lose meaning, and retrieval may return fragments without enough information to answer.
      - Fixed-Size Chunking: Cuts text at a set number of characters (for example, 500 characters). It is fast but can cut sentences in half.
      - Semantic Chunking: Groups sentences by topic. The AI looks at the meaning and splits the text where the topic changes.
      - Document-Based Chunking: Splits text using the natural structure of your file, like a markdown header or a table row.
@@ -103,6 +106,30 @@
      - Faithfulness: Measures whether the generated answer is strictly based on the retrieved documents.
      - Answer Relevancy: Measures whether the AI's answer is relevant to the user's question.
      - Answer Correctness: Compares the AI's final answer to a "ground truth"
+     - Answer Completeness: Did the answer cover all required parts of the question, or did it give a partial response?
+
+### Multi-turn conversations in RAG system
+- Summarize the conversation, rewrite it into a standalone query, retrieve using that, and only keep the minimal relevant chat history in the prompt.
+
+### Handling ambiguous or underspecified queries 
+- [1] Before performing retrieval, use a lightweight LLM to detect if a query is clear. For example, if a user asks, "How do I reset the server?", the bot replies, "Which specific server model are you referring to?"
+- [2] An LLM generates 2-3 differently worded questions from different perspectives if the user's question is unclear. These queries are run in parallel against your vector database.
+- [3] The LLM rewrites the query based on chat history or generates a Hypothetical Document Embedding (HyDE)—a draft answer that helps the retriever find exact document matches.
+
+### Prevent irrelevant context from polluting the prompt
+- Apply metadata filters to narrow the search space
+- Re-rank results after retrieval to push the best evidence to the top
+- Set a minimum similarity threshold and drop weak matches
+
+### Privacy or security risks exist in enterprise RAG systems
+- Sensitive data leakage via retrieval (wrong user gets wrong docs)
+- Unauthorized removal of data from modal
+- Logging of private prompts/context
+- Prompt injection from untrusted content
+
+### RAG vs fine-tuning
+- RAG: Adds external knowledge at query time; Fine-tuning: Updates internal knowledge of the model
+- RAG: Fast, cheap, and easy to scale; Fine-tuning: Slow and expensive
 
 ### Best practices to debug RAG pipeline
 - Instrument every stage of the RAG pipeline with detailed logs.
