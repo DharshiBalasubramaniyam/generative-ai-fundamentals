@@ -213,7 +213,7 @@ D ↔ E ↔ F
 - The subtasks can be run sequentially or simultaneously.
 - The planning can be built by an LLM during runtime, or it can be predefined by developers (e.g., using LangGraph)
 
-## Memory
+### Memory
 - Memory allows an AI agent to retain and reuse information instead of treating every request independently.
 - Short-term memory: Stores the current conversation, intermediate results, and workflow state
 - Long-term memory: Persists user preferences or important facts and past events over weeks or months.
