@@ -227,6 +227,20 @@ D ↔ E ↔ F
 - Reflection is implemented as an additional reasoning step rather than a built-in LLM capability. After generating an initial answer, the application prompts the LLM (Reflection agent) to review its own output against criteria such as accuracy, completeness, grounding, and instruction following. If the review identifies issues, the workflow loops back to revise the answer or perform additional tool calls.
 - Reflection improves response quality and reliability, but it also increases latency and cost because it requires additional reasoning steps.
 
-### LangChain/LangGraph
+### Human-in-the-Loop (HITL)
+- Human-in-the-Loop (HITL) is an AI workflow where a human participates in the decision-making process instead of letting the AI act completely on its own.
+- Without HITL: AI decides → AI acts.
+- With HITL: AI suggests → Human reviews/approves/edits → AI continues.
+- Human-in-the-Loop is often implemented by pausing the workflow before a critical action. The agent waits for user approval, and once the user responds, the workflow resumes from that point.
+
+## MCP
+- The Model Context Protocol (MCP) is an open standard that connects AI models to external tools (i.e., GitHub, Gmail, Calendar), eliminating the need for custom integrations between every AI application and every external system.
+- The three main components of MCP are Host, Client, and Server.
+- **MCP Host** is the application that the user interacts with. E.g., A chatbot application
+- The **MCP Client** is integrated with the MCP Host and communicates with MCP servers using the MCP protocol. It's responsible includes connecting to MCP servers, discovering available tools, sending tool requests, receiving results, and returning results to the Host
+- The implementation of the tools resides in the **MCP Server**, which is developed and maintained by the relevant external system or service provider. For example, a GitHub MCP Server exposes tools such as create_issue, merge_pr, search_repo, and get_pull_requests. When an MCP client invokes one of these tools, the MCP Server executes the corresponding GitHub API calls and returns the results.
+
+## LangChain/LangGraph
 - LangChain and LangGraph are abstraction layers that simplify AI development by providing prebuilt components. 
+
 
