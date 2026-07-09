@@ -234,12 +234,28 @@ D ↔ E ↔ F
 - Human-in-the-Loop is often implemented by pausing the workflow before a critical action. The agent waits for user approval, and once the user responds, the workflow resumes from that point.
 
 ## MCP
-- The Model Context Protocol (MCP) is an open standard that connects AI models to external tools (i.e., GitHub, Gmail, Calendar), eliminating the need for custom integrations between every AI application and every external system.
+- The Model Context Protocol (MCP) is an open standard that connects AI models to external systems (i.e., GitHub, Gmail, Calendar), eliminating the need for custom integrations between every AI application and every external system.
 - The three main components of MCP are Host, Client, and Server.
 - **MCP Host** is the application that the user interacts with. E.g., A chatbot application
 - The **MCP Client** is integrated with the MCP Host and communicates with MCP servers using the MCP protocol. It's responsible includes connecting to MCP servers, discovering available tools, sending tool requests, receiving results, and returning results to the Host
-- The implementation of the tools resides in the **MCP Server**, which is developed and maintained by the relevant external system or service provider. For example, a GitHub MCP Server exposes tools such as create_issue, merge_pr, search_repo, and get_pull_requests. When an MCP client invokes one of these tools, the MCP Server executes the corresponding GitHub API calls and returns the results.
-
+- The implementation of the tools/resouces/prompts resides in the **MCP Server**, which is developed and maintained by the relevant external service provider. For example, a GitHub MCP Server exposes tools such as create_issue, merge_pr, search_repo, and get_pull_requests. When an MCP client invokes one of these tools, the MCP Server executes the corresponding GitHub API calls and returns the results.
+- There are three core primitives that an MCP server exposes to an AI application: Tools, Resouces, Prompts
+- Tools:
+     - Tools allow the LLM to perform actions.
+     - Tools are controlled entirely by the LLM.
+     - The AI model decides when to call these tools, and the results are used directly by the LLM to accomplish tasks.
+- Resources
+     - Resources are read-only data exposed by the server, which are controlled by your application code. E.g., Product catalog, Documentation, Policies, Knowledge base, Markdown files, PDFs
+     - Your app decides when to fetch resource data and how to use it. E.g., when a user types the **@** symbol in the query, the app can fetch the resources and display them as a dropdown. After the user selects a resource from the dropdown, the app can get the resource content and attach it to the LLM prompt.
+     - Resources are identified using URLs. E.g., docs://spring-security-guide
+- Prompts
+     - Prompts are reusable prompt templates stored in the MCP server that users can trigger on demand. 
+     - Users decide when to run these predefined workflows through UI interactions like button clicks, menu selections, or slash commands.
+- Choosing the Right Primitive
+     - Need to give Claude new capabilities? Use tools
+     - Need to get data into your app for UI or context? Use resources
+     - Want to create predefined workflows for users? Use prompts
+ 
 ## LangChain/LangGraph
 - LangChain and LangGraph are abstraction layers that simplify AI development by providing prebuilt components. 
 
